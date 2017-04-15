@@ -9,3 +9,5 @@
 <%@ taglib uri="http://terasoluna.org/tags" prefix="t"%>
 <%@ taglib uri="http://terasoluna.org/functions" prefix="f"%>
 <%@ taglib uri="http://www.joda.org/joda/time/tags" prefix="joda" %>
+
+<spring:eval expression="@environment.getProperty('application.disableCss', 'false')" var="disableCss" scope="request"/>

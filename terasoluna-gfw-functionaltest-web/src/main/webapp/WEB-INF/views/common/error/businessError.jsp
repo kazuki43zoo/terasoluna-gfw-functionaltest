@@ -2,9 +2,11 @@
 <html>
 <head>
 <title>Business Error</title>
+<c:if test="${disableCss == 'false'}">
 <link rel="stylesheet"
-    href="${pageContext.request.contextPath}/resources/app/css/style.css"
-    type="text/css" media="screen, projection">
+      href="${pageContext.request.contextPath}/resources/app/css/style.css"
+      type="text/css" media="screen, projection">
+</c:if>
 </head>
 <body>
     <div class="wrapper">

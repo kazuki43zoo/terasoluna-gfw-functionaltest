@@ -135,7 +135,7 @@ public class ElController {
         Map<String, Object> outputQueryData = new LinkedHashMap<String, Object>();
         outputQueryData.put("Date", dt.toDate());
         outputQueryData.put("String", "Spring");
-        outputQueryData.put("int", 100);
+        outputQueryData.put("Integer", 100);
 
         model.addAttribute("outputData", outputQueryData);
 

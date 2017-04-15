@@ -32,6 +32,9 @@
     <input id="open-new-window" class="mainbtn" style="width: 200px;" type="submit" value="Open New Window">
 </form>
 
+<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/vendor/js/jquery-1.7.2.js"></script>
+
 <script type="text/javascript">
 document.getElementById("result").innerHTML = document
 			.getElementsByName('_TRANSACTION_TOKEN')[0].value;

@@ -1,5 +1,7 @@
+<c:if test="${disableCss == 'false'}">
 <link rel="stylesheet"
   href="${pageContext.request.contextPath}/resources/vendor/bootstrap-3.0.0/css/bootstrap.css" />
+</c:if>
 	<h1>${f:h(page.number) + 1} Page</h1>
 	<div class="pagination">
 		<t:pagination page="${page}" maxDisplayCount="20" outerElementClass="pagination-sm"/>
