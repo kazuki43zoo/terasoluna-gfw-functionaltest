@@ -55,7 +55,16 @@
         <property name="dataSource" ref="dataSourceForLogging" />
     </bean>
 
-    <beans profile="firefox default">
+    <beans profile="htmlunit default">
+        <bean id="webDriver" class="org.terasoluna.gfw.functionaltest.app.CustomHtmlUnitDriver"
+              scope="prototype">
+            <constructor-arg>
+                <value type="com.gargoylesoftware.htmlunit.BrowserVersion">${selenium.htmlunit.browser}</value>
+            </constructor-arg>
+            <property name="javascriptEnabled" value="true"/>
+        </bean>
+    </beans>
+    <beans profile="firefox">
         <bean id="webDriver" class="org.terasoluna.gfw.functionaltest.app.FirefoxDriverFactoryBean"
             scope="prototype" />
     </beans>

@@ -563,10 +563,7 @@ public class TransactionTokenTest extends FunctionTestSupport {
         String mainWindow = driver.getWindowHandle();
 
         for (int i = 0; i < 10; i++) {
-            driver.findElement(By.id("open-new-window")).click();
-            driver.switchTo()
-                    .window(new LinkedList<String>(driver.getWindowHandles())
-                            .getLast());
+            openNewWindow();
             driver.findElement(By.id("link2")).click();
             driver.findElement(By.id("btn-flow1")).click();
         }
@@ -597,19 +594,15 @@ public class TransactionTokenTest extends FunctionTestSupport {
 
         // Conflict window
         // Start conflicting operation
-        driver.findElement(By.id("open-new-window")).click();
-        driver.switchTo().window(
-                new LinkedList<String>(driver.getWindowHandles()).getLast());
+        openNewWindow();
+
         driver.findElement(By.id("link3")).click();
         driver.findElement(By.id("btn-begin1")).click();
         String conflictWindow = driver.getWindowHandle();
 
         for (int i = 0; i < 2; i++) {
             // Other window
-            driver.findElement(By.id("open-new-window")).click();
-            driver.switchTo()
-                    .window(new LinkedList<String>(driver.getWindowHandles())
-                            .getLast());
+            openNewWindow();
             driver.findElement(By.id("link3")).click();
             driver.findElement(By.id("btn-begin1")).click();
         }
@@ -645,10 +638,7 @@ public class TransactionTokenTest extends FunctionTestSupport {
 
         for (int i = 0; i < 2; i++) {
             // Other window
-            driver.findElement(By.id("open-new-window")).click();
-            driver.switchTo()
-                    .window(new LinkedList<String>(driver.getWindowHandles())
-                            .getLast());
+            openNewWindow();
             driver.findElement(By.id("link3")).click();
             driver.findElement(By.id("btn-begin2")).click();
         }
@@ -675,9 +665,7 @@ public class TransactionTokenTest extends FunctionTestSupport {
         String mainWindow = driver.getWindowHandle();
 
         // Other window
-        driver.findElement(By.id("open-new-window")).click();
-        driver.switchTo().window(
-                new LinkedList<String>(driver.getWindowHandles()).getLast());
+        openNewWindow();
         driver.findElement(By.id("link3")).click();
         driver.findElement(By.id("btn-begin3")).click();
 
@@ -704,10 +692,7 @@ public class TransactionTokenTest extends FunctionTestSupport {
 
         // The default maximum number of open window(create token)
         for (int i = 0; i < 9; i++) {
-            driver.findElement(By.id("open-new-window")).click();
-            driver.switchTo()
-                    .window(new LinkedList<String>(driver.getWindowHandles())
-                            .getLast());
+            openNewWindow();
             driver.findElement(By.id("link2")).click();
             driver.findElement(By.id("btn-flow1")).click();
         }
@@ -736,17 +721,15 @@ public class TransactionTokenTest extends FunctionTestSupport {
 
         // The default maximum number of open window(create token)
         for (int i = 0; i < 9; i++) {
-            driver.findElement(By.id("open-new-window")).click();
-            driver.switchTo()
-                    .window(new LinkedList<String>(driver.getWindowHandles())
-                            .getLast());
+            openNewWindow();
             driver.findElement(By.id("link2")).click();
             driver.findElement(By.id("btn-flow1")).click();
         }
 
         // Other window token check is OK (Overwrite token of the first window)
-        driver.switchTo().window(
-                new LinkedList<String>(driver.getWindowHandles()).get(4));
+        Set<String> currentWindowHandles = new HashSet<>(driver.getWindowHandles());
+        currentWindowHandles.remove(mainWindow);
+        driver.switchTo().window(currentWindowHandles.iterator().next());
         driver.findElement(By.name("redo1")).click();
         driver.findElement(By.id("btn-flow1")).click();
         assertTrue(driver.findElement(By.name("_TRANSACTION_TOKEN"))
@@ -780,6 +763,17 @@ public class TransactionTokenTest extends FunctionTestSupport {
         assertThat(token2Name, is(token1Name));
         assertThat(token2Key, is(token1Key));
         assertThat(token2Value, is(not(token1Value)));
+    }
+
+
+    private void openNewWindow() {
+        Set<String> oldWindowHandles = driver.getWindowHandles();
+
+        driver.findElement(By.id("open-new-window")).click();
+
+        Set<String> currentWindowHandles = new HashSet<>(driver.getWindowHandles());
+        currentWindowHandles.removeAll(oldWindowHandles);
+        driver.switchTo().window(currentWindowHandles.iterator().next());
     }
 
 }

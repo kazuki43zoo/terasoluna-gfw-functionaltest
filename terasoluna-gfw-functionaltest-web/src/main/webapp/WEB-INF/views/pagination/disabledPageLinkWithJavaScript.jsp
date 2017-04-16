@@ -1,5 +1,5 @@
 <script type="text/javascript"
-        src="${pageContext.request.contextPath}/resources/vendor/js/jquery.js"></script>
+		src="${pageContext.request.contextPath}/resources/vendor/js/jquery-1.7.2.js"></script>
 
 <script type="text/javascript">
     $(function(){

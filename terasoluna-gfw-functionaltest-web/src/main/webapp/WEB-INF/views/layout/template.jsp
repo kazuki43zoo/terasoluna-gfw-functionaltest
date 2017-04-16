@@ -13,9 +13,6 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/app/css/style.css"
 	type="text/css" media="screen, projection">
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/vendor/js/jquery-1.7.2.js"></script>
-
 <c:set var="titleKey">
   <tiles:insertAttribute name="title" ignore="true" />
 </c:set>

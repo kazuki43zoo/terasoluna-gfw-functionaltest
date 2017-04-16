@@ -26,7 +26,6 @@ import java.io.StringReader;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -38,8 +37,6 @@ import org.terasoluna.gfw.functionaltest.app.FunctionTestSupport;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:META-INF/spring/seleniumContext.xml" })
 public class ElTest extends FunctionTestSupport {
-
-    private boolean acceptNextAlert = true;
 
     @Test
     public void test01_XSS_Measures() {
@@ -211,12 +208,12 @@ public class ElTest extends FunctionTestSupport {
         driver.findElement(By.id("EL")).click();
         driver.findElement(By.id("04")).click();
         inputFieldAccessor.overrideValue(By.id("text-output"),
-                "スプリングエムブイシー（ＳＰＲＩＮＧ　ＭＶＣ）、スプリングセキュリティー", driver);
+                "スプリングエムブイシー（ＳＰＲＩＮＧ ＭＶＣ）、スプリングセキュリティー", driver);
         driver.findElement(By.id("btn-output")).click();
 
         // output 04_04 Test
         assertThat(driver.findElement(By.id("cutOutput")).getText(),
-                is("スプリングエムブイシー（ＳＰＲＩＮＧ　ＭＶＣ）、スプリングセ"));
+                is("スプリングエムブイシー（ＳＰＲＩＮＧ ＭＶＣ）、スプリングセ"));
     }
 
     @Test
@@ -307,7 +304,7 @@ public class ElTest extends FunctionTestSupport {
         // output 06_01-02 Test
         assertThat(
                 driver.findElement(By.id("queryOutput")).getText(),
-                is("Date=Tue%20Oct%2001%2000:00:00%20JST%202013&String=Spring&int=100"));
+                is("Date=Tue%20Oct%2001%2000:00:00%20JST%202013&String=Spring&Integer=100"));
         assertThat(
                 driver.findElement(By.id("noAndQueryOutput")).getText(),
                 is("%26String=framework&Long=100&boolean=true&DateTime=10/1/13%2012:00%20AM"));
@@ -417,8 +414,7 @@ public class ElTest extends FunctionTestSupport {
         inputFieldAccessor.overrideValue(By.id("criteria.name"), "yamada",
                 driver);
         inputFieldAccessor.overrideValue(By.id("criteria.age"), "20", driver);
-        inputFieldAccessor.overrideValue(By.id("rememberCriteria"), "true",
-                driver);
+        new Select(driver.findElement(By.id("rememberCriteria"))).selectByValue("true");
 
         driver.findElement(By.id("searchButton")).click();
         driver.findElement(By.id("pagination")).findElement(By.linkText("2"))
@@ -429,8 +425,8 @@ public class ElTest extends FunctionTestSupport {
                 "value"), is("yamada"));
         assertThat(driver.findElement(By.id("criteria.age")).getAttribute(
                 "value"), is("20"));
-        assertThat(driver.findElement(By.id("rememberCriteria")).getAttribute(
-                "value"), is("true"));
+        assertThat(new Select(driver.findElement(By.id("rememberCriteria")))
+            .getFirstSelectedOption().getText(), is("YES"));
     }
 
     @Test
@@ -443,7 +439,7 @@ public class ElTest extends FunctionTestSupport {
         inputFieldAccessor.overrideValue(By.id("criteria1.name"), "tanaka",
                 driver);
         inputFieldAccessor.overrideValue(By.id("criteria1.age"), "50", driver);
-        inputFieldAccessor.overrideValue(By.id("operator"), "AND", driver);
+        new Select(driver.findElement(By.id("operator"))).selectByValue("AND");
 
         driver.findElement(By.id("searchButton")).click();
         driver.findElement(By.id("pagination")).findElement(By.linkText("2"))
@@ -458,8 +454,8 @@ public class ElTest extends FunctionTestSupport {
                 "value"), is("tanaka"));
         assertThat(driver.findElement(By.id("criteria1.age")).getAttribute(
                 "value"), is("50"));
-        assertThat(driver.findElement(By.id("operator")).getAttribute("value"),
-                is("AND"));
+        assertThat( new Select(driver.findElement(By.id("operator")))
+                .getFirstSelectedOption().getText(), is("AND"));
     }
 
     @Test
@@ -831,7 +827,7 @@ public class ElTest extends FunctionTestSupport {
         driver.findElement(By.id("write")).click();
 
         // output 08_01 Test
-        assertThat(closeAlertAndGetItsText(),
+        assertThat(driver.findElement(By.id("text")).getText(),
                 is("input ');alert('XSS Attack');// . )"));
 
         // screen capture
@@ -843,7 +839,7 @@ public class ElTest extends FunctionTestSupport {
         driver.findElement(By.id("write")).click();
 
         // output 08_02 Test
-        assertThat(closeAlertAndGetItsText(),
+        assertThat(driver.findElement(By.id("text")).getText(),
                 is("input ');alert(\"XSS Attack\");// . )"));
 
         // screen capture
@@ -855,22 +851,8 @@ public class ElTest extends FunctionTestSupport {
         driver.findElement(By.id("write")).click();
 
         // output 08_03 Test
-        assertThat(closeAlertAndGetItsText(), is("input Spring Framework"));
+        assertThat(driver.findElement(By.id("text")).getText(), is("input Spring Framework"));
 
     }
 
-    private String closeAlertAndGetItsText() {
-        try {
-            Alert alert = driver.switchTo().alert();
-            String alertText = alert.getText();
-            if (acceptNextAlert) {
-                alert.accept();
-            } else {
-                alert.dismiss();
-            }
-            return alertText;
-        } finally {
-            acceptNextAlert = true;
-        }
-    }
 }
