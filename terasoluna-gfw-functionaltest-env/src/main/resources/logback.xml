@@ -131,10 +131,10 @@
     <level value="debug" />
   </logger>
 	<logger name="org.openqa.selenium">
-		<level value="debug" />
+		<level value="all" />
 	</logger>
 	<logger name="org.apache.http.client">
-		<level value="debug" />
+		<level value="all" />
 	</logger>
 
   <root level="warn">
