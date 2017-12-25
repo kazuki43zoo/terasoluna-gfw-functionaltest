@@ -12,6 +12,7 @@ cache:
     - $HOME/.m2
 
 install:
+  - cat /etc/hosts
   - pushd `pwd`
   - cd $HOME/build
   - if [[ -z $GFW_BRANCH ]]; then GFW_BRANCH=master; fi
