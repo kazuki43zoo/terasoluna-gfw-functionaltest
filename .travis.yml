@@ -5,6 +5,8 @@ jdk:
 addons:
   postgresql: "9.4"
   firefox: "38.8.0esr"
+  hosts:
+    - localhost
 cache:
   directories:
     - $HOME/.m2
